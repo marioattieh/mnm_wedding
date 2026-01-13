@@ -31,4 +31,7 @@ export default defineConfig({
       exclude: [...(configDefaults.coverage.exclude ?? []), "**/main.tsx"],
     },
   },
+  server: {
+    port: 5100,
+  },
 });
