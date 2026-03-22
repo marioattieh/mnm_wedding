@@ -25,7 +25,7 @@ export default defineConfig({
     globals: true,
     environment: "jsdom",
     setupFiles: "./setup-tests.ts",
-    include: ["**/*.test.tsx"],
+    include: ["**/*.{test,spec}.{ts,tsx}"],
     coverage: {
       reporter: ["text", "lcov"],
       exclude: [...(configDefaults.coverage.exclude ?? []), "**/main.tsx"],

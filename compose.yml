@@ -1,7 +1,7 @@
 version: "3.8"
 services:
-  sandbox:
-    container_name: sandbox
+  mnm_wedding:
+    container_name: mnm_wedding
     build: .
     ports:
       - "3000:8080"

@@ -32,7 +32,7 @@ RUN yarn build
 FROM nginx:stable-alpine AS production
 
 # Add group and user
-RUN addgroup -S grp && adduser -S sandbox -G grp
+RUN addgroup -S grp && adduser -S mnm_wedding -G grp
 
 # Set working directory
 WORKDIR /usr/share/nginx/html
@@ -45,10 +45,10 @@ COPY --from=builder /app/nginx.conf.template /etc/nginx/templates/nginx.conf.tem
 
 # Fix permissions for nginx cache and logs and conf
 RUN mkdir -p /run/nginx /var/run /var/cache/nginx && \
-    chown -R sandbox:grp /run /run/nginx /var/run /var/cache/nginx /etc/nginx/conf.d
+    chown -R mnm_wedding:grp /run /run/nginx /var/run /var/cache/nginx /etc/nginx/conf.d
 
 # Use non-root user
-USER sandbox
+USER mnm_wedding
 
 EXPOSE 8080
 

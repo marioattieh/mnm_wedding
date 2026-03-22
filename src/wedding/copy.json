@@ -1,0 +1,53 @@
+{
+  "invite": {
+    "headlineLineOne": {
+      "en": "We're Getting Married!",
+      "ar": ""
+    },
+    "headlineLineTwo": {
+      "en": "to our wedding",
+      "ar": "لحضور حفل زفافنا"
+    },
+    "cta": {
+      "en": "Start",
+      "ar": "ابدأ"
+    }
+  },
+  "weddingDate": {
+    "en": "Sunday, April 26, 2026",
+    "ar": "الأحد، ٢٦ نيسان ٢٠٢٦"
+  },
+  "overlay": {
+    "ceremonyLabel": {
+      "en": "Ceremony",
+      "ar": "الاكليل"
+    },
+    "ceremonyTime": {
+      "en": "6:00 p.m.",
+      "ar": "٦:٠٠ مساءً"
+    },
+    "venueName": {
+      "en": "St. Mama Church, Kfarsaroun",
+      "ar": "كنيسة مار ماما، كفرصارون"
+    },
+    "mapsUrl": "https://maps.app.goo.gl/3FYdZH74TRktYm3W9",
+    "mapsLinkLabel": {
+      "en": "Open in Google Maps",
+      "ar": "افتحوا في خرائط Google"
+    }
+  },
+  "youtubeAudio": {
+    "play": {
+      "en": "Play song",
+      "ar": "تشغيل الأغنية"
+    },
+    "pause": {
+      "en": "Pause",
+      "ar": "إيقاف مؤقت"
+    },
+    "iframeTitle": {
+      "en": "Stephen Sanchez — Until I Found You (plays via YouTube)",
+      "ar": "ستيفن سانشيز — حتى وجدتَك (عبر YouTube)"
+    }
+  }
+}

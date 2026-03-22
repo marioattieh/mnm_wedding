@@ -1,0 +1,224 @@
+import landingUrl from "@assets/landing/landing.jpg";
+import { BilingualBlock } from "@components/bilingual-text";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
+import { useCallback, useEffect, useState } from "react";
+
+import { weddingCopy } from "@/wedding/copy";
+
+interface WeddingInviteScreenProps {
+  onFinished: () => void;
+}
+
+const sparkles = [
+  { left: "12%", top: "18%", delay: 0 },
+  { left: "78%", top: "22%", delay: 0.4 },
+  { left: "64%", top: "72%", delay: 0.8 },
+  { left: "22%", top: "68%", delay: 1.2 },
+] as const;
+
+export function WeddingInviteScreen({ onFinished }: WeddingInviteScreenProps) {
+  const [visible, setVisible] = useState(true);
+  const reduceMotion = useReducedMotion();
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const parallaxX = useSpring(mouseX, { stiffness: 22, damping: 18 });
+  const parallaxY = useSpring(mouseY, { stiffness: 22, damping: 18 });
+
+  const { invite } = weddingCopy;
+  const ctaAriaLabel = `${invite.cta.en}. ${invite.cta.ar}`;
+
+  useEffect(() => {
+    if (reduceMotion) {
+      return;
+    }
+    const onMove = (e: MouseEvent) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      mouseX.set((e.clientX - cx) * 0.055);
+      mouseY.set((e.clientY - cy) * 0.055);
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [mouseX, mouseY, reduceMotion]);
+
+  const onBegin = useCallback(() => {
+    setVisible(false);
+  }, []);
+
+  const headlineStagger = reduceMotion ? 0 : 0.14;
+  const childDuration = reduceMotion ? 0.2 : 1.25;
+
+  return (
+    <AnimatePresence onExitComplete={onFinished}>
+      {visible ? (
+        <motion.div
+          key="wedding-invite-root"
+          aria-labelledby="wedding-invite-heading"
+          className="wedding-invite"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={
+            reduceMotion
+              ? { opacity: 0, transition: { duration: 0.22 } }
+              : {
+                  opacity: 0,
+                  scale: 1.07,
+                  filter: "blur(16px)",
+                  transition: { duration: 0.88, ease: [0.45, 0, 0.2, 1] },
+                }
+          }
+          transition={{ duration: 0.5, ease: [0.45, 0, 0.2, 1] }}
+        >
+          <div className="wedding-invite__bg-fill" aria-hidden>
+            <img
+              alt=""
+              className="wedding-invite__bg-fill-img"
+              decoding="async"
+              draggable={false}
+              src={landingUrl}
+            />
+          </div>
+          <motion.div
+            aria-hidden
+            className="wedding-invite__bg-ken"
+            initial={{ scale: 1 }}
+            animate={{ scale: 1 }}
+          >
+            <motion.div
+              aria-hidden
+              className="wedding-invite__bg-parallax"
+              style={{
+                x: parallaxX,
+                y: parallaxY,
+              }}
+            >
+              <img
+                alt=""
+                className="wedding-invite__bg-img"
+                decoding="async"
+                draggable={false}
+                src={landingUrl}
+              />
+            </motion.div>
+          </motion.div>
+          <div className="wedding-invite__scrim" aria-hidden />
+          {!reduceMotion
+            ? sparkles.map((s) => (
+                <motion.span
+                  key={`${s.left}-${s.top}`}
+                  aria-hidden
+                  className="wedding-invite__sparkle"
+                  style={{ left: s.left, top: s.top }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{
+                    opacity: [0, 0.9, 0.35, 0.85, 0],
+                    scale: [0.4, 1, 0.7, 1.05, 0.5],
+                  }}
+                  transition={{
+                    duration: 4.2,
+                    repeat: Infinity,
+                    delay: s.delay,
+                    ease: "easeInOut",
+                  }}
+                />
+              ))
+            : null}
+          <motion.div
+            className="wedding-invite__frame"
+            aria-hidden
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: reduceMotion ? 0 : 0.35, duration: 0.9 }}
+          />
+          <div className="wedding-invite__content">
+            <motion.div
+              id="wedding-invite-heading"
+              className="wedding-invite__headline"
+              initial="hidden"
+              animate="show"
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: headlineStagger,
+                    delayChildren: reduceMotion ? 0 : 0.2,
+                  },
+                },
+              }}
+            >
+              <motion.span
+                className="wedding-invite__headline-line"
+                variants={{
+                  hidden: {
+                    opacity: 0,
+                    y: reduceMotion ? 0 : 28,
+                    rotate: reduceMotion ? 0 : -1,
+                  },
+                  show: {
+                    opacity: 1,
+                    y: 0,
+                    rotate: 0,
+                    transition: {
+                      duration: childDuration,
+                      ease: [0.45, 0, 0.2, 1],
+                    },
+                  },
+                }}
+              >
+                <BilingualBlock
+                  className="wedding-invite__headline-stack"
+                  text={invite.headlineLineOne}
+                />
+              </motion.span>
+            </motion.div>
+            <motion.div
+              className="wedding-invite__cta-wrap"
+              initial={{ opacity: 0, y: reduceMotion ? 0 : 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: reduceMotion ? 0.1 : 0.95,
+                duration: reduceMotion ? 0.2 : 1.25,
+                ease: [0.45, 0, 0.2, 1],
+              }}
+            >
+              <motion.button
+                type="button"
+                className="wedding-invite__cta"
+                aria-label={ctaAriaLabel}
+                onClick={onBegin}
+                whileHover={
+                  reduceMotion
+                    ? undefined
+                    : {
+                        scale: 1.04,
+                        boxShadow:
+                          "0 0 0 1px rgba(250,246,240,0.5), 0 18px 48px rgba(0,0,0,0.45)",
+                      }
+                }
+                whileTap={reduceMotion ? undefined : { scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 420, damping: 22 }}
+              >
+                <span className="wedding-invite__cta-shimmer" aria-hidden />
+                <span className="wedding-invite__cta-labels">
+                  <span className="wedding-invite__cta-en" lang="en">
+                    {invite.cta.en}
+                  </span>
+                  <span className="wedding-invite__cta-ar" dir="rtl" lang="ar">
+                    {invite.cta.ar}
+                  </span>
+                </span>
+              </motion.button>
+            </motion.div>
+          </div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
+  );
+}
