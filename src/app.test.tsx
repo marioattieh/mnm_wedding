@@ -52,7 +52,7 @@ describe("App", () => {
       screen.getByText(weddingCopy.overlay.venueName.en),
     ).toBeInTheDocument();
     await waitFor(() => {
-      expect(screen.queryByText(/Add JPG images/i)).not.toBeInTheDocument();
+      expect(screen.queryByText(/Add WebP images/i)).not.toBeInTheDocument();
     });
     expect(
       screen.getByRole("link", {

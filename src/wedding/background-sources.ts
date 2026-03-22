@@ -1,5 +1,5 @@
 const modules = import.meta.glob(
-  ["../assets/**/*.jpg", "../assets/**/*.jpeg", "!../assets/landing/**"],
+  ["../assets/**/*.webp", "!../assets/landing/**"],
   { import: "default" },
 ) as Record<string, () => Promise<string>>;
 
@@ -9,7 +9,7 @@ function isSlideshowAsset(key: string): boolean {
   return !normalized.includes("/landing/");
 }
 
-/** Sort by leading digits in the filename (e.g. 100.jpg, 110.jpg), then by path. */
+/** Sort by leading digits in the filename (e.g. 100.webp, 110.webp), then by path. */
 function slideshowSortKey(path: string): number {
   const base = path.split(/[/\\]/).pop() ?? "";
   const match = /^(\d+)/.exec(base);

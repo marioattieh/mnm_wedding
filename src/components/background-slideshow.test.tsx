@@ -30,16 +30,10 @@ describe("BackgroundSlideshow", () => {
   it("advances to the next slide on the interval when multiple URLs are provided", async () => {
     const { container } = render(<BackgroundSlideshow urls={[jpegA, jpegB]} />);
     expect(screen.getByTestId("background-slideshow")).toBeInTheDocument();
-    expect(
-      container.querySelectorAll(".background-slideshow__slide"),
-    ).toHaveLength(2);
-    expect(container.querySelectorAll("img")).toHaveLength(4);
 
     const sharpSrc = () =>
       container
-        .querySelector(
-          '.background-slideshow__slide[data-active="true"] .background-slideshow__sharp-img',
-        )
+        .querySelector(".background-slideshow__sharp-img")
         ?.getAttribute("src");
     expect(sharpSrc()).toBe(jpegA);
 

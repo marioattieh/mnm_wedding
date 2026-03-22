@@ -31,7 +31,7 @@ describe("background-sources", () => {
       instances.push(self);
       return self as unknown as HTMLImageElement;
     });
-    prefetchImageUrl("https://example.com/warm.jpg");
-    expect(instances[0]?.src).toBe("https://example.com/warm.jpg");
+    prefetchImageUrl("https://example.com/warm.webp");
+    expect(instances[0]?.src).toBe("https://example.com/warm.webp");
   });
 });

@@ -1,4 +1,4 @@
-import landingUrl from "@assets/landing/landing.jpg";
+import landingUrl from "@assets/landing/landing.webp";
 import { BilingualBlock } from "@components/bilingual-text";
 import {
   AnimatePresence,
