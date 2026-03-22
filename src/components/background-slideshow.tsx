@@ -1,11 +1,13 @@
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import type { Variants } from "framer-motion";
+import { motion, MotionConfig, useReducedMotion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 
 const INTERVAL_MS = 5_000;
 
 const easeLux = [0.45, 0, 0.2, 1] as const;
+const easeOutSoft = [0.16, 1, 0.3, 1] as const;
 
-/** Bitmap ready for display; shared across prefetch and slide transitions. */
+/** Bitmap ready for display; shared across preload. */
 const imageReadyByUrl = new Map<string, Promise<void>>();
 
 function ensureImageReady(url: string): Promise<void> {
@@ -16,7 +18,6 @@ function ensureImageReady(url: string): Promise<void> {
   if (cached) {
     return cached;
   }
-  // jsdom does not reliably fire `load` / finish `decode()` on `Image()`; advance timers in tests.
   if (import.meta.env.VITEST) {
     const instant = Promise.resolve();
     imageReadyByUrl.set(url, instant);
@@ -53,13 +54,127 @@ function ensureImageReady(url: string): Promise<void> {
   return promise;
 }
 
-function SlideImagePair({ url }: { url: string }) {
+interface SlideshowVariantSet {
+  slide: Variants;
+  fillWrap: Variants;
+  sharpWrap: Variants;
+}
+
+function createSlideshowVariants(reduceMotion: boolean): SlideshowVariantSet {
+  if (reduceMotion) {
+    const t = 0.22;
+    const ease = easeLux;
+    return {
+      slide: {
+        inactive: {
+          opacity: 0,
+          y: 0,
+          rotateZ: 0,
+          transition: { duration: t, ease },
+        },
+        active: {
+          opacity: 1,
+          y: 0,
+          rotateZ: 0,
+          transition: { duration: t, ease },
+        },
+      },
+      fillWrap: {
+        inactive: { opacity: 0, transition: { duration: t, ease } },
+        active: { opacity: 1, transition: { duration: t, ease } },
+      },
+      sharpWrap: {
+        inactive: { opacity: 0, transition: { duration: t, ease } },
+        active: { opacity: 1, transition: { duration: t, ease } },
+      },
+    };
+  }
+
+  const exitDur = 0.88;
+  const slideInOpacityDur = 1.28;
+  const springSlide = {
+    type: "spring" as const,
+    stiffness: 62,
+    damping: 23,
+    mass: 0.92,
+  };
+  return {
+    slide: {
+      inactive: {
+        opacity: 0,
+        y: "1.6%",
+        rotateZ: 0.4,
+        transition: {
+          opacity: { duration: exitDur, ease: easeLux },
+          y: { duration: exitDur * 0.92, ease: easeOutSoft },
+          rotateZ: { duration: exitDur * 0.92, ease: easeOutSoft },
+        },
+      },
+      active: {
+        opacity: 1,
+        y: 0,
+        rotateZ: 0,
+        transition: {
+          opacity: { duration: slideInOpacityDur, ease: easeLux },
+          y: springSlide,
+          rotateZ: springSlide,
+          staggerChildren: 0.13,
+          delayChildren: 0.06,
+        },
+      },
+    },
+    fillWrap: {
+      inactive: {
+        opacity: 0,
+        transition: {
+          opacity: { duration: exitDur * 0.9, ease: easeLux },
+        },
+      },
+      active: {
+        opacity: 1,
+        transition: {
+          opacity: { duration: 1.05, ease: easeLux, delay: 0.02 },
+        },
+      },
+    },
+    sharpWrap: {
+      inactive: {
+        opacity: 0,
+        transition: {
+          opacity: { duration: exitDur * 0.88, ease: easeLux },
+        },
+      },
+      active: {
+        opacity: [0, 0.22, 1],
+        transition: {
+          opacity: {
+            duration: 1.42,
+            times: [0, 0.2, 1],
+            ease: easeLux,
+          },
+        },
+      },
+    },
+  };
+}
+
+function SlideLayers({
+  url,
+  variants,
+}: {
+  url: string;
+  variants: Pick<SlideshowVariantSet, "fillWrap" | "sharpWrap">;
+}) {
   if (typeof url !== "string" || url.length === 0) {
     return null;
   }
   return (
     <>
-      <div className="background-slideshow__fill" aria-hidden>
+      <motion.div
+        aria-hidden
+        className="background-slideshow__fill"
+        variants={variants.fillWrap}
+      >
         <img
           alt=""
           className="background-slideshow__fill-img"
@@ -68,15 +183,11 @@ function SlideImagePair({ url }: { url: string }) {
           fetchPriority="low"
           src={url}
         />
-      </div>
-      <div
-        className="background-slideshow__sharp"
+      </motion.div>
+      <motion.div
         aria-hidden
-        style={
-          {
-            "--slideshow-zoom-duration": `${INTERVAL_MS * 0.8}ms`,
-          } as CSSProperties
-        }
+        className="background-slideshow__sharp"
+        variants={variants.sharpWrap}
       >
         <img
           alt=""
@@ -86,7 +197,7 @@ function SlideImagePair({ url }: { url: string }) {
           fetchPriority="high"
           src={url}
         />
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -97,58 +208,46 @@ interface BackgroundSlideshowProps {
 
 export function BackgroundSlideshow({ urls }: BackgroundSlideshowProps) {
   const reduceMotion = useReducedMotion();
+  const urlsKey = urls.join("\0");
   const [index, setIndex] = useState(0);
-  const indexRef = useRef(index);
+  const [preloaded, setPreloaded] = useState(() => urls.length <= 1);
+
+  const variants = useMemo(
+    () => createSlideshowVariants(!!reduceMotion),
+    [reduceMotion],
+  );
 
   useEffect(() => {
-    indexRef.current = index;
-  }, [index]);
+    setIndex(0);
+  }, [urlsKey]);
 
   useEffect(() => {
     if (urls.length <= 1) {
+      setPreloaded(true);
       return;
     }
-    const n = urls.length;
+    setPreloaded(false);
     let cancelled = false;
-    let timeoutId: number | undefined;
-
-    const schedule = () => {
-      timeoutId = window.setTimeout(() => {
-        void run();
-      }, INTERVAL_MS);
-    };
-
-    async function run() {
-      if (cancelled) {
-        return;
+    void Promise.all(urls.map((u) => ensureImageReady(u))).then(() => {
+      if (!cancelled) {
+        setPreloaded(true);
       }
-      const i = indexRef.current;
-      const nextUrl = urls[(i + 1) % n];
-      await ensureImageReady(nextUrl);
-      if (cancelled) {
-        return;
-      }
-      setIndex((prev) => (prev + 1) % n);
-      schedule();
-    }
-
-    schedule();
+    });
     return () => {
       cancelled = true;
-      if (timeoutId !== undefined) {
-        window.clearTimeout(timeoutId);
-      }
     };
-  }, [urls]);
+  }, [urlsKey, urls.length, urls]);
 
   useEffect(() => {
-    if (urls.length === 0) {
+    if (!preloaded || urls.length <= 1) {
       return;
     }
     const n = urls.length;
-    const nextUrl = urls[(index + 1) % n];
-    void ensureImageReady(nextUrl);
-  }, [index, urls]);
+    const id = window.setInterval(() => {
+      setIndex((i) => (i + 1) % n);
+    }, INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, [preloaded, urls.length, urlsKey]);
 
   if (urls.length === 0) {
     return (
@@ -160,45 +259,49 @@ export function BackgroundSlideshow({ urls }: BackgroundSlideshowProps) {
     );
   }
 
+  const motionMode = reduceMotion ? "always" : "user";
+
   if (urls.length === 1) {
     return (
-      <div className="background-slideshow" data-testid="background-slideshow">
-        <motion.div
-          aria-hidden
-          className="background-slideshow__slide"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: reduceMotion ? 0.2 : 1.1,
-            ease: easeLux,
-          }}
+      <MotionConfig reducedMotion={motionMode}>
+        <div
+          className="background-slideshow"
+          data-testid="background-slideshow"
         >
-          <SlideImagePair url={urls[0]} />
-        </motion.div>
-      </div>
+          <motion.div
+            aria-hidden
+            className="background-slideshow__slide background-slideshow__slide--active"
+            data-active="true"
+            initial="inactive"
+            animate="active"
+            variants={variants.slide}
+          >
+            <SlideLayers url={urls[0]} variants={variants} />
+          </motion.div>
+        </div>
+      </MotionConfig>
     );
   }
 
-  const duration = reduceMotion ? 0.22 : 1.05;
-
   return (
-    <div className="background-slideshow" data-testid="background-slideshow">
-      <AnimatePresence initial={false} mode="sync">
-        <motion.div
-          key={urls[index]}
-          aria-hidden
-          className="background-slideshow__slide"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{
-            duration,
-            ease: easeLux,
-          }}
-        >
-          <SlideImagePair url={urls[index]} />
-        </motion.div>
-      </AnimatePresence>
-    </div>
+    <MotionConfig reducedMotion={motionMode}>
+      <div className="background-slideshow" data-testid="background-slideshow">
+        {urls.map((url, i) => (
+          <motion.div
+            key={url}
+            aria-hidden
+            layout={false}
+            className={`background-slideshow__slide${i === index ? " background-slideshow__slide--active" : ""}`}
+            data-active={i === index ? "true" : "false"}
+            initial={false}
+            animate={i === index ? "active" : "inactive"}
+            variants={variants.slide}
+            style={{ zIndex: i === index ? 2 : 1 }}
+          >
+            <SlideLayers url={url} variants={variants} />
+          </motion.div>
+        ))}
+      </div>
+    </MotionConfig>
   );
 }

@@ -425,6 +425,7 @@
   inset: 0;
   pointer-events: none;
   will-change: opacity, transform;
+  transform-origin: center center;
 }
 
 .background-slideshow__fill,
@@ -432,6 +433,7 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  transform-origin: center center;
 }
 
 .background-slideshow__fill {
@@ -444,13 +446,12 @@
 
 .background-slideshow__fill-img {
   position: absolute;
-  inset: -15%;
-  width: 130%;
-  height: 130%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
   filter: blur(44px);
-  transform: scale(1.02);
 }
 
 .background-slideshow__sharp-img {
@@ -461,19 +462,6 @@
   object-fit: cover;
   object-position: center;
   display: block;
-  transform-origin: center center;
-  animation: background-slideshow-sharp-zoom var(--slideshow-zoom-duration, 3s)
-    cubic-bezier(0.45, 0, 0.2, 1) forwards;
-}
-
-@keyframes background-slideshow-sharp-zoom {
-  from {
-    transform: scale(0.94);
-  }
-
-  to {
-    transform: scale(1);
-  }
 }
 
 .wedding-youtube-audio {
