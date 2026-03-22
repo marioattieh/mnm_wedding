@@ -10,7 +10,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json yarn.lock* ./
-RUN --mount=type=cache,target=/root/.yarn \
+RUN --mount=type=cache,id=yarn-cache,target=/root/.yarn \
   yarn install --frozen-lockfile
 
 
