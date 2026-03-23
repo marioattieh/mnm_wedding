@@ -186,7 +186,7 @@ export function WeddingInviteScreen({
             <motion.div
               className="mt-0.5 sm:mt-2"
               initial={{ opacity: 0, y: reduceMotion ? 0 : 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 0.99, y: 0 }}
               transition={{
                 delay: reduceMotion ? 0.1 : 0.95,
                 duration: reduceMotion ? 0.2 : 1.25,
@@ -195,7 +195,7 @@ export function WeddingInviteScreen({
             >
               <motion.button
                 type="button"
-                className="group relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full border border-ivory-50/45 bg-ivory-50/10 px-5 py-2 text-xs font-['Outfit',system-ui,sans-serif] font-medium tracking-[0.12em] text-ivory-50 uppercase shadow-lg shadow-black/45 backdrop-blur-sm hover:border-ivory-50/55 hover:bg-ivory-50/14 sm:min-h-13 sm:px-7 sm:py-3 sm:text-sm sm:tracking-[0.14em]"
+                className="group relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full border border-ivory-50/45 bg-ink-950/20 px-5 py-2 text-xs font-['Outfit',system-ui,sans-serif] font-medium tracking-[0.12em] text-ivory-50 uppercase shadow-lg shadow-black/45 backdrop-blur-sm hover:border-ivory-50/55 hover:bg-ivory-50/14 sm:min-h-13 sm:px-7 sm:py-3 sm:text-sm sm:tracking-[0.14em]"
                 aria-label={ctaAriaLabel}
                 onClick={handleBegin}
                 whileHover={
