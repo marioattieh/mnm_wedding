@@ -64,7 +64,7 @@ export function WeddingInviteScreen({
         <motion.div
           key="wedding-invite-root"
           aria-labelledby="wedding-invite-heading"
-          className="fixed inset-0 z-10 overflow-hidden"
+          className="fixed inset-0 z-10 h-dvh min-h-dvh max-h-dvh overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={
@@ -143,7 +143,7 @@ export function WeddingInviteScreen({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: reduceMotion ? 0 : 0.35, duration: 0.9 }}
           />
-          <div className="relative z-1 flex h-dvh flex-col items-center justify-center px-4 py-6 text-center text-ivory-50 sm:px-6 sm:py-8">
+          <div className="relative z-1 flex h-dvh min-h-dvh max-h-dvh flex-col items-center justify-center px-4 py-6 text-center text-ivory-50 sm:px-6 sm:py-8">
             <motion.div
               id="wedding-invite-heading"
               className="mb-6 sm:mb-8 md:mb-10"

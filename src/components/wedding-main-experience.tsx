@@ -9,7 +9,7 @@ export default function WeddingMainExperience({
 }) {
   return (
     <motion.div
-      className="relative isolate min-h-screen w-full overflow-hidden"
+      className="relative isolate h-dvh min-h-dvh max-h-dvh w-full overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.55, ease: [0.45, 0, 0.2, 1] }}
