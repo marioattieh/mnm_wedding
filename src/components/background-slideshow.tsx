@@ -14,7 +14,7 @@ function SlideImagePair({ url }: { url: string }) {
       <div className="background-slideshow__fill absolute inset-0" aria-hidden>
         <img
           alt=""
-          className="background-slideshow__fill-img block h-full w-full scale-110 object-cover object-center blur-[44px]"
+          className="background-slideshow__fill-img block h-dvh w-full scale-110 object-cover object-center blur-[44px]"
           decoding="async"
           draggable={false}
           src={url}
@@ -23,7 +23,7 @@ function SlideImagePair({ url }: { url: string }) {
       <div className="background-slideshow__sharp absolute inset-0" aria-hidden>
         <img
           alt=""
-          className="background-slideshow__sharp-img block h-full w-full object-cover object-center"
+          className="background-slideshow__sharp-img block h-dvh w-full object-cover object-center"
           decoding="async"
           draggable={false}
           src={url}

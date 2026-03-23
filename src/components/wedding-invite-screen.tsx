@@ -82,7 +82,7 @@ export function WeddingInviteScreen({
           <div className="absolute inset-0" aria-hidden>
             <img
               alt=""
-              className="block h-full w-full scale-110 object-cover object-center blur-[44px]"
+              className="block h-dvh w-full scale-110 object-cover object-center blur-[44px]"
               decoding="async"
               draggable={false}
               src={landingUrl}
@@ -104,7 +104,7 @@ export function WeddingInviteScreen({
             >
               <img
                 alt=""
-                className="block h-full w-full object-cover object-center"
+                className="block h-dvh w-full object-cover object-center"
                 decoding="async"
                 draggable={false}
                 src={landingUrl}
@@ -137,16 +137,16 @@ export function WeddingInviteScreen({
               ))
             : null}
           <motion.div
-            className="pointer-events-none absolute inset-5 rounded-4xl border border-ivory-50/25 md:inset-8"
+            className="pointer-events-none absolute inset-3 rounded-3xl border border-ivory-50/25 sm:inset-5 sm:rounded-4xl md:inset-8"
             aria-hidden
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: reduceMotion ? 0 : 0.35, duration: 0.9 }}
           />
-          <div className="relative z-1 flex min-h-screen flex-col items-center justify-center px-6 text-center text-ivory-50">
+          <div className="relative z-1 flex h-dvh flex-col items-center justify-center px-4 py-6 text-center text-ivory-50 sm:px-6 sm:py-8">
             <motion.div
               id="wedding-invite-heading"
-              className="mb-10"
+              className="mb-6 sm:mb-8 md:mb-10"
               initial="hidden"
               animate="show"
               variants={{
@@ -161,7 +161,7 @@ export function WeddingInviteScreen({
               }}
             >
               <motion.span
-                className="block font-['Cormorant_Garamond','Times_New_Roman',serif] text-[clamp(2.1rem,6.8vw,4.6rem)] leading-[1.08] tracking-[0.02em] drop-shadow-xl"
+                className="block font-['Cormorant_Garamond','Times_New_Roman',serif] text-[clamp(1.65rem,8vw,4.6rem)] leading-[1.06] tracking-[0.02em] drop-shadow-xl sm:text-[clamp(2rem,7vw,4.6rem)]"
                 lang="en"
                 variants={{
                   hidden: {
@@ -184,7 +184,7 @@ export function WeddingInviteScreen({
               </motion.span>
             </motion.div>
             <motion.div
-              className="mt-2"
+              className="mt-0.5 sm:mt-2"
               initial={{ opacity: 0, y: reduceMotion ? 0 : 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -195,7 +195,7 @@ export function WeddingInviteScreen({
             >
               <motion.button
                 type="button"
-                className="group relative inline-flex min-h-13 items-center justify-center overflow-hidden rounded-full border border-ivory-50/45 bg-ivory-50/10 px-7 py-3 font-['Outfit',system-ui,sans-serif] font-medium tracking-[0.14em] text-ivory-50 uppercase shadow-lg shadow-black/45 backdrop-blur-sm hover:border-ivory-50/55 hover:bg-ivory-50/14"
+                className="group relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full border border-ivory-50/45 bg-ivory-50/10 px-5 py-2 text-xs font-['Outfit',system-ui,sans-serif] font-medium tracking-[0.12em] text-ivory-50 uppercase shadow-lg shadow-black/45 backdrop-blur-sm hover:border-ivory-50/55 hover:bg-ivory-50/14 sm:min-h-13 sm:px-7 sm:py-3 sm:text-sm sm:tracking-[0.14em]"
                 aria-label={ctaAriaLabel}
                 onClick={handleBegin}
                 whileHover={
