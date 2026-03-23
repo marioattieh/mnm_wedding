@@ -24,7 +24,7 @@ function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-ink-950">
+    <div className="relative min-h-dvh max-h-dvh w-full overflow-x-hidden bg-ink-950">
       <WeddingYoutubeAudio ref={audioRef} showToggle={showMusicToggle} />
       {!started ? (
         <WeddingInviteScreen

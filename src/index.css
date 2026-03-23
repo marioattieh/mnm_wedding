@@ -24,7 +24,7 @@
   html,
   body,
   #root {
-    @apply min-h-screen overflow-x-hidden bg-ink-950;
+    @apply min-h-dvh max-h-dvh overflow-x-hidden bg-ink-950;
   }
 
   body {
