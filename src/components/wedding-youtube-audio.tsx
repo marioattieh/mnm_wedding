@@ -1,3 +1,4 @@
+import { Pause as PauseIcon, Play as PlayIcon } from "lucide-react";
 import {
   type ForwardedRef,
   forwardRef,
@@ -73,31 +74,6 @@ function loadYouTubeIframeApi(): Promise<void> {
     document.head.appendChild(tag);
   });
   return iframeApiPromise;
-}
-
-function PlayGlyph() {
-  return (
-    <svg
-      className="wedding-youtube-audio__icon wedding-youtube-audio__icon--play"
-      viewBox="0 0 24 24"
-      aria-hidden
-    >
-      <polygon points="8,5 8,19 19,12" fill="currentColor" />
-    </svg>
-  );
-}
-
-function PauseGlyph() {
-  return (
-    <svg
-      className="wedding-youtube-audio__icon"
-      viewBox="0 0 24 24"
-      aria-hidden
-    >
-      <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" />
-      <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" />
-    </svg>
-  );
 }
 
 function WeddingYoutubeAudioImpl(
@@ -248,22 +224,29 @@ function WeddingYoutubeAudioImpl(
   }, []);
 
   return (
-    <div className="wedding-youtube-audio">
+    <div className="fixed bottom-[max(1rem,env(safe-area-inset-bottom,0px))] right-[max(1rem,env(safe-area-inset-right,0px))] z-4 flex flex-col items-end">
       <div
         ref={hostRef}
-        className="wedding-youtube-audio__player-host"
+        className="pointer-events-none absolute top-0 left-[-9999px] h-[113px] w-[200px] opacity-[0.02]"
         title={`${youtubeAudio.iframeTitle.en} — ${youtubeAudio.iframeTitle.ar}`}
       />
       {showToggle ? (
         <button
           type="button"
-          className="wedding-youtube-audio__toggle"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-ivory-50/38 bg-ink-950/45 p-0 text-ivory-50 shadow-lg shadow-black/45 backdrop-blur-[10px] transition hover:border-ivory-50/55 hover:bg-ivory-50/12 disabled:cursor-wait disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ivory-50/85"
           disabled={!ready}
           aria-pressed={playing}
           aria-label={`${playing ? youtubeAudio.pause.en : youtubeAudio.play.en}. ${playing ? youtubeAudio.pause.ar : youtubeAudio.play.ar}`}
           onClick={toggle}
         >
-          {playing ? <PauseGlyph /> : <PlayGlyph />}
+          {playing ? (
+            <PauseIcon className="block h-[1.2rem] w-[1.2rem]" aria-hidden />
+          ) : (
+            <PlayIcon
+              className="block h-[1.2rem] w-[1.2rem] translate-x-[2px]"
+              aria-hidden
+            />
+          )}
         </button>
       ) : null}
     </div>

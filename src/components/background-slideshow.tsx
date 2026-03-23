@@ -11,19 +11,19 @@ function SlideImagePair({ url }: { url: string }) {
   }
   return (
     <>
-      <div className="background-slideshow__fill" aria-hidden>
+      <div className="background-slideshow__fill absolute inset-0" aria-hidden>
         <img
           alt=""
-          className="background-slideshow__fill-img"
+          className="background-slideshow__fill-img block h-full w-full scale-110 object-cover object-center blur-[44px]"
           decoding="async"
           draggable={false}
           src={url}
         />
       </div>
-      <div className="background-slideshow__sharp" aria-hidden>
+      <div className="background-slideshow__sharp absolute inset-0" aria-hidden>
         <img
           alt=""
-          className="background-slideshow__sharp-img"
+          className="background-slideshow__sharp-img block h-full w-full object-cover object-center"
           decoding="async"
           draggable={false}
           src={url}
@@ -65,7 +65,7 @@ export function BackgroundSlideshow({ urls }: BackgroundSlideshowProps) {
     return (
       <div
         aria-hidden
-        className="background-slideshow background-slideshow--empty"
+        className="background-slideshow background-slideshow--empty absolute inset-0 z-0 bg-ink-950"
         data-testid="background-slideshow"
       />
     );
@@ -73,10 +73,13 @@ export function BackgroundSlideshow({ urls }: BackgroundSlideshowProps) {
 
   if (urls.length === 1) {
     return (
-      <div className="background-slideshow" data-testid="background-slideshow">
+      <div
+        className="background-slideshow absolute inset-0 z-0 overflow-hidden"
+        data-testid="background-slideshow"
+      >
         <motion.div
           aria-hidden
-          className="background-slideshow__slide"
+          className="background-slideshow__slide absolute inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{
@@ -93,12 +96,15 @@ export function BackgroundSlideshow({ urls }: BackgroundSlideshowProps) {
   const duration = reduceMotion ? 0.22 : 1.05;
 
   return (
-    <div className="background-slideshow" data-testid="background-slideshow">
+    <div
+      className="background-slideshow absolute inset-0 z-0 overflow-hidden"
+      data-testid="background-slideshow"
+    >
       <AnimatePresence initial={false} mode="sync">
         <motion.div
           key={urls[index]}
           aria-hidden
-          className="background-slideshow__slide"
+          className="background-slideshow__slide absolute inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

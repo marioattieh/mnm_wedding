@@ -1,35 +1,33 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #0a0908;
+  --color-ivory-50: #faf6f0;
 }
 
-:root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-html {
-  overflow-x: hidden;
-  background-color: #0a0908;
-}
+  :root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
-  background-color: #0a0908;
-}
+  html,
+  body,
+  #root {
+    @apply min-h-screen overflow-x-hidden bg-ink-950;
+  }
 
-#root {
-  min-height: 100vh;
-  min-height: 100dvh;
-  overflow-x: hidden;
-  background-color: #0a0908;
+  body {
+    @apply m-0 min-w-[320px];
+  }
 }

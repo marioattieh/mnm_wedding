@@ -9,13 +9,16 @@ export default function WeddingMainExperience({
 }) {
   return (
     <motion.div
-      className="app__main"
+      className="relative isolate min-h-screen w-full overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.55, ease: [0.45, 0, 0.2, 1] }}
     >
       <BackgroundSlideshow urls={slideshowUrls} />
-      <div className="app__scrim" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-0 z-10 bg-radial from-ink-950/22 via-ink-950/58 to-ink-950/88"
+        aria-hidden
+      />
       <WeddingOverlay />
     </motion.div>
   );

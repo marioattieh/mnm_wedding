@@ -7,17 +7,21 @@ export interface Bilingual {
 
 export interface WeddingCopy {
   invite: {
-    headlineLineOne: Bilingual;
-    headlineLineTwo: Bilingual;
+    headlineLineOne: string;
     cta: string;
   };
-  weddingDate: Bilingual;
+  weddingDate: string;
   overlay: {
-    ceremonyLabel: Bilingual;
-    ceremonyTime: Bilingual;
+    title: string;
+    subtitle: string;
+    groomName: string;
+    brideName: string;
+    ampersand: string;
+    wedding: string;
+    ceremonyTime: string;
     venueName: Bilingual;
     mapsUrl: string;
-    mapsLinkLabel: Bilingual;
+    mapsLinkLabel: string;
   };
   youtubeAudio: {
     play: Bilingual;

@@ -37,13 +37,13 @@ describe("App", () => {
     render(<App />);
 
     expect(
-      screen.getByText(weddingCopy.invite.headlineLineOne.en),
+      screen.getByText(weddingCopy.invite.headlineLineOne),
     ).toBeInTheDocument();
     expect(screen.queryByTestId("wedding-overlay")).not.toBeInTheDocument();
 
     await user.click(
       screen.getByRole("button", {
-        name: new RegExp(weddingCopy.invite.cta.en, "i"),
+        name: new RegExp(weddingCopy.invite.cta, "i"),
       }),
     );
 
@@ -71,7 +71,7 @@ describe("App", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: new RegExp(weddingCopy.invite.cta.en, "i"),
+        name: new RegExp(weddingCopy.invite.cta, "i"),
       }),
     );
   });
@@ -87,7 +87,7 @@ describe("App", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: new RegExp(weddingCopy.invite.cta.en, "i"),
+        name: new RegExp(weddingCopy.invite.cta, "i"),
       }),
     );
 

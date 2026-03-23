@@ -1,5 +1,4 @@
 import landingUrl from "@assets/landing/landing.webp";
-import { BilingualBlock } from "@components/bilingual-text";
 import {
   AnimatePresence,
   motion,
@@ -65,7 +64,7 @@ export function WeddingInviteScreen({
         <motion.div
           key="wedding-invite-root"
           aria-labelledby="wedding-invite-heading"
-          className="wedding-invite"
+          className="fixed inset-0 z-10 overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={
@@ -80,10 +79,10 @@ export function WeddingInviteScreen({
           }
           transition={{ duration: 0.5, ease: [0.45, 0, 0.2, 1] }}
         >
-          <div className="wedding-invite__bg-fill" aria-hidden>
+          <div className="absolute inset-0" aria-hidden>
             <img
               alt=""
-              className="wedding-invite__bg-fill-img"
+              className="block h-full w-full scale-110 object-cover object-center blur-[44px]"
               decoding="async"
               draggable={false}
               src={landingUrl}
@@ -91,13 +90,13 @@ export function WeddingInviteScreen({
           </div>
           <motion.div
             aria-hidden
-            className="wedding-invite__bg-ken"
+            className="absolute inset-0"
             initial={{ scale: 1 }}
             animate={{ scale: 1 }}
           >
             <motion.div
               aria-hidden
-              className="wedding-invite__bg-parallax"
+              className="absolute inset-0"
               style={{
                 x: parallaxX,
                 y: parallaxY,
@@ -105,20 +104,23 @@ export function WeddingInviteScreen({
             >
               <img
                 alt=""
-                className="wedding-invite__bg-img"
+                className="block h-full w-full object-cover object-center"
                 decoding="async"
                 draggable={false}
                 src={landingUrl}
               />
             </motion.div>
           </motion.div>
-          <div className="wedding-invite__scrim" aria-hidden />
+          <div
+            className="pointer-events-none absolute inset-0 bg-radial from-ink-950/18 via-ink-950/56 to-ink-950/88"
+            aria-hidden
+          />
           {!reduceMotion
             ? sparkles.map((s) => (
                 <motion.span
                   key={`${s.left}-${s.top}`}
                   aria-hidden
-                  className="wedding-invite__sparkle"
+                  className="pointer-events-none absolute h-1.5 w-1.5 rounded-full bg-ivory-50/90 shadow-lg shadow-ivory-50/80"
                   style={{ left: s.left, top: s.top }}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{
@@ -135,16 +137,16 @@ export function WeddingInviteScreen({
               ))
             : null}
           <motion.div
-            className="wedding-invite__frame"
+            className="pointer-events-none absolute inset-5 rounded-4xl border border-ivory-50/25 md:inset-8"
             aria-hidden
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: reduceMotion ? 0 : 0.35, duration: 0.9 }}
           />
-          <div className="wedding-invite__content">
+          <div className="relative z-1 flex min-h-screen flex-col items-center justify-center px-6 text-center text-ivory-50">
             <motion.div
               id="wedding-invite-heading"
-              className="wedding-invite__headline"
+              className="mb-10"
               initial="hidden"
               animate="show"
               variants={{
@@ -159,7 +161,8 @@ export function WeddingInviteScreen({
               }}
             >
               <motion.span
-                className="wedding-invite__headline-line"
+                className="block font-['Cormorant_Garamond','Times_New_Roman',serif] text-[clamp(2.1rem,6.8vw,4.6rem)] leading-[1.08] tracking-[0.02em] drop-shadow-xl"
+                lang="en"
                 variants={{
                   hidden: {
                     opacity: 0,
@@ -177,14 +180,11 @@ export function WeddingInviteScreen({
                   },
                 }}
               >
-                <BilingualBlock
-                  className="wedding-invite__headline-stack"
-                  text={invite.headlineLineOne}
-                />
+                {invite.headlineLineOne}
               </motion.span>
             </motion.div>
             <motion.div
-              className="wedding-invite__cta-wrap"
+              className="mt-2"
               initial={{ opacity: 0, y: reduceMotion ? 0 : 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
@@ -195,7 +195,7 @@ export function WeddingInviteScreen({
             >
               <motion.button
                 type="button"
-                className="wedding-invite__cta"
+                className="group relative inline-flex min-h-13 items-center justify-center overflow-hidden rounded-full border border-ivory-50/45 bg-ivory-50/10 px-7 py-3 font-['Outfit',system-ui,sans-serif] font-medium tracking-[0.14em] text-ivory-50 uppercase shadow-lg shadow-black/45 backdrop-blur-sm hover:border-ivory-50/55 hover:bg-ivory-50/14"
                 aria-label={ctaAriaLabel}
                 onClick={handleBegin}
                 whileHover={
@@ -203,18 +203,17 @@ export function WeddingInviteScreen({
                     ? undefined
                     : {
                         scale: 1.04,
-                        boxShadow:
-                          "0 0 0 1px rgba(250,246,240,0.5), 0 18px 48px rgba(0,0,0,0.45)",
                       }
                 }
                 whileTap={reduceMotion ? undefined : { scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 420, damping: 22 }}
               >
-                <span className="wedding-invite__cta-shimmer" aria-hidden />
-                <span className="wedding-invite__cta-labels">
-                  <span className="wedding-invite__cta-en" lang="en">
-                    {invite.cta}
-                  </span>
+                <span
+                  className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-ivory-50/20 to-transparent opacity-70"
+                  aria-hidden
+                />
+                <span className="relative z-1">
+                  <span lang="en">{invite.cta}</span>
                 </span>
               </motion.button>
             </motion.div>

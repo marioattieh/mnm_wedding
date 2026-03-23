@@ -1,5 +1,3 @@
-import "@/app.css";
-
 import { AppLoadingFallback } from "@components/app-loading-fallback";
 import { WeddingInviteScreen } from "@components/wedding-invite-screen";
 import WeddingMainExperience from "@components/wedding-main-experience";
@@ -26,7 +24,7 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-ink-950">
       <WeddingYoutubeAudio ref={audioRef} showToggle={showMusicToggle} />
       {!started ? (
         <WeddingInviteScreen

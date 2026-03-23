@@ -1,37 +1,23 @@
 {
   "invite": {
-    "headlineLineOne": {
-      "en": "We're Getting Married!",
-      "ar": ""
-    },
-    "headlineLineTwo": {
-      "en": "to our wedding",
-      "ar": "لحضور حفل زفافنا"
-    },
+    "headlineLineOne": "We're Getting Married!",
     "cta": "Start"
   },
-  "weddingDate": {
-    "en": "Sunday, April 26, 2026",
-    "ar": "الأحد، ٢٦ نيسان ٢٠٢٦"
-  },
+  "weddingDate": "Sunday, April 26, 2026",
   "overlay": {
-    "ceremonyLabel": {
-      "en": "Ceremony",
-      "ar": "الاكليل"
-    },
-    "ceremonyTime": {
-      "en": "6:00 p.m.",
-      "ar": "٦:٠٠ مساءً"
-    },
+    "title": "Together is a beautiful place to be",
+    "subtitle": "Join us for",
+    "groomName": "    Mario",
+    "brideName": "Manuella",
+    "ampersand": "&",
+    "wedding": "Wedding",
+    "ceremonyTime": "6:00 p.m.",
     "venueName": {
       "en": "St. Mama Church, Kfarsaroun",
       "ar": "كنيسة مار ماما، كفرصارون"
     },
     "mapsUrl": "https://maps.app.goo.gl/3FYdZH74TRktYm3W9",
-    "mapsLinkLabel": {
-      "en": "Open in Google Maps",
-      "ar": "افتحوا في خرائط Google"
-    }
+    "mapsLinkLabel": "Location"
   },
   "youtubeAudio": {
     "play": {
