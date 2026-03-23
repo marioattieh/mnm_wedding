@@ -9,7 +9,7 @@ export interface WeddingCopy {
   invite: {
     headlineLineOne: Bilingual;
     headlineLineTwo: Bilingual;
-    cta: Bilingual;
+    cta: string;
   };
   weddingDate: Bilingual;
   overlay: {

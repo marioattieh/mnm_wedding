@@ -1,7 +1,7 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const INTERVAL_MS = 5_000;
+const INTERVAL_MS = 4_000;
 
 const easeLux = [0.45, 0, 0.2, 1] as const;
 

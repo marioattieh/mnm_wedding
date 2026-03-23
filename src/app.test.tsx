@@ -92,7 +92,7 @@ describe("App", () => {
     );
 
     expect(
-      await screen.findByRole("status", {}, { timeout: 5_000 }),
+      await screen.findByRole("status", {}, { timeout: 4_000 }),
     ).toHaveTextContent(/loading/i);
     resolveUrls([tinyJpeg]);
     expect(await screen.findByTestId("wedding-overlay")).toBeInTheDocument();

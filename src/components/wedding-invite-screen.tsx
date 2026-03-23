@@ -35,7 +35,7 @@ export function WeddingInviteScreen({
   const parallaxY = useSpring(mouseY, { stiffness: 22, damping: 18 });
 
   const { invite } = weddingCopy;
-  const ctaAriaLabel = `${invite.cta.en}. ${invite.cta.ar}`;
+  const ctaAriaLabel = `${invite.cta}`;
 
   useEffect(() => {
     if (reduceMotion) {
@@ -213,10 +213,7 @@ export function WeddingInviteScreen({
                 <span className="wedding-invite__cta-shimmer" aria-hidden />
                 <span className="wedding-invite__cta-labels">
                   <span className="wedding-invite__cta-en" lang="en">
-                    {invite.cta.en}
-                  </span>
-                  <span className="wedding-invite__cta-ar" dir="rtl" lang="ar">
-                    {invite.cta.ar}
+                    {invite.cta}
                   </span>
                 </span>
               </motion.button>
