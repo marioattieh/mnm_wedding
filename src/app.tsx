@@ -3,26 +3,36 @@ import "@/app.css";
 import { AppLoadingFallback } from "@components/app-loading-fallback";
 import { WeddingInviteScreen } from "@components/wedding-invite-screen";
 import WeddingMainExperience from "@components/wedding-main-experience";
-import { WeddingYoutubeAudio } from "@components/wedding-youtube-audio";
-import { useEffect, useState } from "react";
+import {
+  WeddingYoutubeAudio,
+  type WeddingYoutubeAudioHandle,
+} from "@components/wedding-youtube-audio";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getSlideshowUrlsPromise } from "@/wedding/slideshow-urls-promise";
 
 function App() {
   const [started, setStarted] = useState(false);
   const [slideshowUrls, setSlideshowUrls] = useState<string[] | null>(null);
+  const audioRef = useRef<WeddingYoutubeAudioHandle | null>(null);
 
   useEffect(() => {
     void getSlideshowUrlsPromise().then(setSlideshowUrls);
   }, []);
 
   const showMusicToggle = started && slideshowUrls !== null;
+  const handleBegin = useCallback(() => {
+    audioRef.current?.playFromUserGesture();
+  }, []);
 
   return (
     <div className="app">
-      <WeddingYoutubeAudio showToggle={showMusicToggle} />
+      <WeddingYoutubeAudio ref={audioRef} showToggle={showMusicToggle} />
       {!started ? (
-        <WeddingInviteScreen onFinished={() => setStarted(true)} />
+        <WeddingInviteScreen
+          onBegin={handleBegin}
+          onFinished={() => setStarted(true)}
+        />
       ) : slideshowUrls === null ? (
         <AppLoadingFallback />
       ) : (

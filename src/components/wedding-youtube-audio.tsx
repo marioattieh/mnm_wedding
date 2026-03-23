@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  type ForwardedRef,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 
 import { weddingCopy } from "@/wedding/copy";
 
@@ -92,18 +100,41 @@ function PauseGlyph() {
   );
 }
 
-export function WeddingYoutubeAudio({
-  showToggle,
-}: {
-  /** When false, only the hidden player loads (e.g. on the invite screen). */
-  showToggle: boolean;
-}) {
+function WeddingYoutubeAudioImpl(
+  {
+    showToggle,
+  }: {
+    /** When false, only the hidden player loads (e.g. on the invite screen). */
+    showToggle: boolean;
+  },
+  ref: ForwardedRef<WeddingYoutubeAudioHandle>,
+) {
   const hostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YTPlayer | null>(null);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const autoplayMainOnceRef = useRef(false);
   const { youtubeAudio } = weddingCopy;
+  const playFromGesture = useCallback(() => {
+    const p = playerRef.current;
+    if (!p) {
+      return false;
+    }
+    const t = p.getCurrentTime();
+    if (!Number.isFinite(t) || t < LOOP_START_SEC || t >= LOOP_END_SEC) {
+      p.seekTo(LOOP_START_SEC, true);
+    }
+    p.playVideo();
+    return true;
+  }, []);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      playFromUserGesture: playFromGesture,
+    }),
+    [playFromGesture],
+  );
 
   useEffect(() => {
     if (!hostRef.current) {
@@ -177,16 +208,11 @@ export function WeddingYoutubeAudio({
       return;
     }
     autoplayMainOnceRef.current = true;
-    const p = playerRef.current;
-    if (!p) {
+    if (!playerRef.current) {
       return;
     }
-    const t = p.getCurrentTime();
-    if (!Number.isFinite(t) || t < LOOP_START_SEC || t >= LOOP_END_SEC) {
-      p.seekTo(LOOP_START_SEC, true);
-    }
-    p.playVideo();
-  }, [showToggle, ready]);
+    playFromGesture();
+  }, [showToggle, ready, playFromGesture]);
 
   useEffect(() => {
     if (!playing) {
@@ -243,3 +269,10 @@ export function WeddingYoutubeAudio({
     </div>
   );
 }
+
+export interface WeddingYoutubeAudioHandle {
+  playFromUserGesture: () => boolean;
+}
+
+export const WeddingYoutubeAudio = forwardRef(WeddingYoutubeAudioImpl);
+WeddingYoutubeAudio.displayName = "WeddingYoutubeAudio";

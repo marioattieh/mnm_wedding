@@ -13,6 +13,7 @@ import { weddingCopy } from "@/wedding/copy";
 
 interface WeddingInviteScreenProps {
   onFinished: () => void;
+  onBegin?: () => void;
 }
 
 const sparkles = [
@@ -22,7 +23,10 @@ const sparkles = [
   { left: "22%", top: "68%", delay: 1.2 },
 ] as const;
 
-export function WeddingInviteScreen({ onFinished }: WeddingInviteScreenProps) {
+export function WeddingInviteScreen({
+  onFinished,
+  onBegin,
+}: WeddingInviteScreenProps) {
   const [visible, setVisible] = useState(true);
   const reduceMotion = useReducedMotion();
   const mouseX = useMotionValue(0);
@@ -47,9 +51,10 @@ export function WeddingInviteScreen({ onFinished }: WeddingInviteScreenProps) {
     return () => window.removeEventListener("mousemove", onMove);
   }, [mouseX, mouseY, reduceMotion]);
 
-  const onBegin = useCallback(() => {
+  const handleBegin = useCallback(() => {
+    onBegin?.();
     setVisible(false);
-  }, []);
+  }, [onBegin]);
 
   const headlineStagger = reduceMotion ? 0 : 0.14;
   const childDuration = reduceMotion ? 0.2 : 1.25;
@@ -192,7 +197,7 @@ export function WeddingInviteScreen({ onFinished }: WeddingInviteScreenProps) {
                 type="button"
                 className="wedding-invite__cta"
                 aria-label={ctaAriaLabel}
-                onClick={onBegin}
+                onClick={handleBegin}
                 whileHover={
                   reduceMotion
                     ? undefined

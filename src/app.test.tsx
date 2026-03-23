@@ -1,4 +1,5 @@
 import { render, screen, userEvent, waitFor } from "@test-utils";
+import { forwardRef } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const { tinyJpeg, stableUrlsPromise, getSlideshowUrlsPromiseMock } = vi.hoisted(
@@ -20,7 +21,7 @@ vi.mock("@/wedding/slideshow-urls-promise", () => ({
 }));
 
 vi.mock("@components/wedding-youtube-audio", () => ({
-  WeddingYoutubeAudio: () => null,
+  WeddingYoutubeAudio: forwardRef(() => null),
 }));
 
 import App from "@/app";
