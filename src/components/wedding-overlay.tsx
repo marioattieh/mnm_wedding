@@ -50,35 +50,33 @@ export function WeddingOverlay() {
           {overlay.wedding}
         </span>
       </div>
-      <div className="flex flex-col items-center gap-1">
-        <div className="mb-2.5 sm:mb-3">
-          <span
-            className="font-['Outfit',system-ui,sans-serif] text-[clamp(0.8rem,2.35vw,0.93rem)] tracking-[0.16em] uppercase text-ivory-50/90"
-            lang="en"
-          >
-            {weddingDate}
-          </span>
-        </div>
+      <div className="flex flex-col items-center gap-2">
+        <span
+          className="font-['Outfit',system-ui,sans-serif] text-[clamp(0.8rem,2.35vw,0.93rem)] tracking-[0.16em] uppercase text-ivory-50/90"
+          lang="en"
+        >
+          {weddingDate}
+        </span>
+
+        <span
+          className="font-['Cormorant_Garamond','Times_New_Roman',serif] text-[clamp(1.1rem,2.4vw,1.4rem)] leading-tight"
+          lang="en"
+        >
+          {overlay.ceremonyTime}
+        </span>
+
         <div
-          className="mb-3 h-px w-22 bg-ivory-50/35 sm:mb-4 sm:w-24"
+          className="h-px w-full bg-linear-to-r from-transparent via-ivory-50/35 to-transparent"
           aria-hidden
         />
-        <div className="mb-1.5 sm:mb-2">
-          <span
-            className="font-['Cormorant_Garamond','Times_New_Roman',serif] text-[clamp(1.7rem,4.85vw,2.55rem)] leading-tight"
-            lang="en"
-          >
-            {overlay.ceremonyTime}
-          </span>
-        </div>
-        <div className="mb-1.5 sm:mb-2">
-          <span
-            className="font-['Cormorant_Garamond','Times_New_Roman',serif] text-[clamp(1.32rem,3.85vw,2.12rem)] font-semibold leading-tight"
-            lang="en"
-          >
-            {overlay.venueName.en}
-          </span>
-        </div>
+
+        <span
+          className="font-['Cormorant_Garamond','Times_New_Roman',serif] text-[clamp(1.32rem,3.85vw,2.12rem)] font-semibold leading-tight"
+          lang="en"
+        >
+          {overlay.venueName.en}
+        </span>
+
         <a
           className="mt-3 inline-flex min-h-11 max-w-[calc(100vw-2rem)] items-center justify-center gap-2 rounded-full border border-ivory-50/40 bg-ivory-50/8 px-4 py-2.5 font-['Outfit',system-ui,sans-serif] text-[clamp(0.75rem,2.2vw,0.9rem)] font-medium leading-snug text-ivory-50 no-underline shadow-lg shadow-black/45 transition hover:-translate-y-px hover:border-ivory-50/65 hover:bg-ivory-50/14 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ivory-50/90 sm:mt-4 sm:min-h-13 sm:max-w-[calc(100vw-2.5rem)] sm:px-5 sm:py-3 sm:text-[clamp(0.88rem,2.6vw,1.05rem)]"
           aria-label="Open in Google Maps"
