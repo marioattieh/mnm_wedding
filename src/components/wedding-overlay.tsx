@@ -17,12 +17,6 @@ export function WeddingOverlay() {
         >
           "{overlay.title}"
         </span>
-        <span
-          className="font-['Open_Sans',system-ui,sans-serif] text-[clamp(0.95rem,2.55vw,1.35rem)] leading-tight"
-          lang="en"
-        >
-          {overlay.subtitle}
-        </span>
         <div className="mt-2.5 flex w-full items-center justify-between font-['Cormorant_Garamond'] font-bold whitespace-break-spaces sm:mt-4">
           <span
             className=" text-[clamp(2.05rem,5.95vw,3.05rem)] leading-tight"
@@ -44,10 +38,10 @@ export function WeddingOverlay() {
           </span>
         </div>
         <span
-          className="font-['Open_Sans',system-ui,sans-serif] text-[clamp(1.28rem,3.4vw,1.87rem)] leading-tight"
+          className="font-['Open_Sans',system-ui,sans-serif] text-[clamp(0.95rem,2.55vw,1.35rem)] leading-tight"
           lang="en"
         >
-          {overlay.wedding}
+          {overlay.subtitle}
         </span>
       </div>
       <div className="flex flex-col items-center gap-2">
